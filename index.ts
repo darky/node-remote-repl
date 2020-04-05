@@ -59,7 +59,9 @@ const expression =
     port: ((program as unknown) as ProgramT).port,
   });
   const resp = await client.Runtime.evaluate({
-    expression,
+    expression: `(async () => {
+      ${expression}
+    })()`,
     includeCommandLineAPI: true,
     awaitPromise: true,
   });
