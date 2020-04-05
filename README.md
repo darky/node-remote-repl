@@ -45,40 +45,45 @@ console.log(/* some stuff */)
 #### expose some json from remote process
 
 ```js
-JSON.stringify({/* some json */}, null, 2)
+return JSON.stringify({/* some json */}, null, 2)
 ```
 
 #### use power of require
 
 ```js
-var util = require('util');
-var module = require('./some-module');
-util.inspect(module.method(), {colors: true})
+const util = require('util');
+const module = require('./some-module');
+return util.inspect(module.method(), {colors: true})
 ```
 
 #### typescript support out of the box
 
 ```ts
-var n: number = 1;
-n;
+const n: number = 1;
+return n;
 ```
 
-#### use some CI/CD for replace stuff on remote side
+#### you can replace implementation on remote side
 
 ```js
-var typedi = require('typedi');
-var Module = require('./some-module');
-typedi.Container.set('some-module', new class extends Module {
-  method() {
-    // replace implementation on the fly
-  }
-})
+const Module = require('./some-module');
+Module.prototype.method = () => {
+  // replace implementation on the fly
+};
+```
+
+#### Promise support on top level
+
+```js
+const module = require('./some-module');
+const resp = await module.someAsyncMethod();
+return resp;
 ```
 
 ### Integration with IDE
 
 Because it simple command line util, you can easy integrate it with your IDE.
-For example let's do it with Visual Studio Code with Code Runner extension:
+For example let's do it with Visual Studio Code and Code Runner extension:
 
 * install Code Runner extension to Visual Studio Code
 * configure Code Runner to run `node-remote-repl` in `repl.js`:
@@ -93,13 +98,3 @@ For example let's do it with Visual Studio Code with Code Runner extension:
 
 * profit, now you can fastly run repl via Visual Studio Code
 * I hope, some similar stuff exists on all popular IDE
-
-### Limitations
-
-* Use `var` instead `let` or `const`. Otherwise, you get error like: `SyntaxError: Identifier 'someVar' has already been declared` on next call until your remote process will be restarted
-* On typescript side need use `require` instead `import` stuff. Otherwise, you get error like: `ReferenceError: exports is not defined`. Example of proper usage:
-
-```ts
-var someModule = require('./some-module') as typeof import('./some-module');
-someModule // all typing works correctly
-```
