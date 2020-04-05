@@ -61,6 +61,7 @@ const expression =
   const resp = await client.Runtime.evaluate({
     expression,
     includeCommandLineAPI: true,
+    awaitPromise: true,
   });
   console.log(resp.result.value || resp);
   client.close();
