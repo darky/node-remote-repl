@@ -1,0 +1,35 @@
+{
+  "name": "node-remote-repl",
+  "version": "0.0.0",
+  "description": "Node.js remote code execution via inspect protocol",
+  "main": "index.js",
+  "bin": {
+    "node-remote-repl": "./index.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "build": "npx type-coverage --at-least 100 --ignore-catch; rm index.js; tsc --build tsconfig.json; sed -i '1 i #!/usr/bin/env node' index.js; chmod +x index.js",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "repl",
+    "node",
+    "inspect",
+    "remote",
+    "execution"
+  ],
+  "author": "Vladislav Botvin",
+  "license": "MIT",
+  "dependencies": {
+    "chrome-remote-interface": "0.28.1",
+    "commander": "5.0.0",
+    "typescript": "3.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "13.11.0",
+    "type-coverage": "2.4.2"
+  }
+}
