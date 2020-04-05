@@ -8,7 +8,11 @@ declare module "chrome-remote-interface" {
       evaluate(opts: {
         expression: string;
         includeCommandLineAPI: boolean;
-      }): Promise<object>;
+      }): Promise<{
+        result: {
+          value?: unknown;
+        };
+      }>;
     };
   }>;
 }

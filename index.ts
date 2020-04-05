@@ -62,7 +62,7 @@ const expression =
     expression,
     includeCommandLineAPI: true,
   });
-  console.log(resp);
+  console.log(resp.result.value || resp);
   client.close();
 })().catch((e: Error) => {
   console.error(e);
