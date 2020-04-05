@@ -98,3 +98,12 @@ For example let's do it with Visual Studio Code and Code Runner extension:
 
 * profit, now you can fastly run repl via Visual Studio Code
 * I hope, some similar stuff exists on all popular IDE
+
+### Limitations	
+
+* On typescript side need use `require` instead `import` stuff. Otherwise, you get error like: `ReferenceError: exports is not defined`. Example of proper usage:	
+
+```ts	
+const someModule = require('./some-module') as typeof import('./some-module');	
+return someModule.method({test: true}) // all typing works correctly	
+```
