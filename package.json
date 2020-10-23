@@ -1,6 +1,6 @@
 {
   "name": "node-remote-repl",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Node.js remote code execution via inspect protocol",
   "main": "index.js",
   "bin": {
