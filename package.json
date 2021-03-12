@@ -3,6 +3,10 @@
   "version": "0.2.1",
   "description": "Node.js remote code execution via inspect protocol",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/darky/node-remote-repl.git"
+  },
   "bin": {
     "node-remote-repl": "./index.js"
   },
