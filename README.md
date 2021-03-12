@@ -101,9 +101,10 @@ For example let's do it with Visual Studio Code and Code Runner extension:
 
 ### Limitations	
 
-* On typescript side need use `require` instead `import` stuff. Otherwise, you get error like: `ReferenceError: exports is not defined`. Example of proper usage:	
+* On typescript side need return explicit variable. Otherwise you can stuck on require error.	
 
 ```ts	
-const someModule = require('./some-module') as typeof import('./some-module');	
-return someModule.method({test: true}) // all typing works correctly	
+import someModule from './some-module';	
+const resp = someModule.method({test: true});
+return resp;	
 ```
