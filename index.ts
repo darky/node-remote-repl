@@ -60,6 +60,7 @@ const expression =
   });
   const resp = await client.Runtime.evaluate({
     expression: `(async () => {
+      const exports = {};
       ${expression}
     })()`,
     includeCommandLineAPI: true,
