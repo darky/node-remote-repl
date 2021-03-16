@@ -39,45 +39,47 @@ node-remote-repl --host some-host --port 9229 repl.js
 #### log to stdout of your remote process
 
 ```js
-console.log(/* some stuff */)
+const main = async () => {
+  console.log(/* some stuff */)
+};
 ```
 
 #### expose some json from remote process
 
 ```js
-return JSON.stringify({/* some json */}, null, 2)
+const main = async () => {
+  return JSON.stringify({/* some json */}, null, 2);
+};
 ```
 
 #### use power of require
 
 ```js
-const util = require('util');
-const module = require('./some-module');
-return util.inspect(module.method(), {colors: true})
+const main = async () => {
+  const util = require('util');
+  const module = require('./some-module');
+  return util.inspect(module.method(), {colors: true});
+};
 ```
 
 #### typescript support out of the box
 
 ```ts
-const n: number = 1;
-return n;
+const main = async () => {
+  const n: number = 1;
+  return n;
+};
 ```
 
 #### you can replace implementation on remote side
 
 ```js
-const Module = require('./some-module');
-Module.prototype.method = () => {
-  // replace implementation on the fly
+const main = async () => {
+  const Module = require('./some-module');
+  Module.prototype.method = () => {
+    // replace implementation on the fly
+  };
 };
-```
-
-#### Promise support on top level
-
-```js
-const module = require('./some-module');
-const resp = await module.someAsyncMethod();
-return resp;
 ```
 
 ### Integration with IDE
@@ -98,13 +100,3 @@ For example let's do it with Visual Studio Code and Code Runner extension:
 
 * profit, now you can fastly run repl via Visual Studio Code
 * I hope, some similar stuff exists on all popular IDE
-
-### Limitations	
-
-* On typescript side need return explicit variable. Otherwise you can stuck on require error.	
-
-```ts	
-import someModule from './some-module';	
-const resp = someModule.method({test: true});
-return resp;	
-```
