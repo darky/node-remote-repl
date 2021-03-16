@@ -62,6 +62,7 @@ const expression =
     expression: `(async () => {
       const exports = {};
       ${expression}
+      return await main();
     })()`,
     includeCommandLineAPI: true,
     awaitPromise: true,
