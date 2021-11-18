@@ -55,8 +55,8 @@ const expression =
     port: number;
   };
   const client = await CRI({
-    host: ((program as unknown) as ProgramT).host,
-    port: ((program as unknown) as ProgramT).port,
+    host: program.opts<ProgramT>().host,
+    port: program.opts<ProgramT>().port,
   });
   const resp = await client.Runtime.evaluate({
     expression: `(async () => {
