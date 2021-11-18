@@ -42,9 +42,9 @@ const expression =
     ? fileContent
     : ts.transpileModule(fileContent, {
         compilerOptions: {
-          lib: ["es2018"],
+          lib: ["es2020"],
           module: ModuleKind.CommonJS,
-          target: ScriptTarget.ES2018,
+          target: ScriptTarget.ES2019,
           esModuleInterop: true,
         },
       }).outputText;
