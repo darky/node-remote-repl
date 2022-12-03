@@ -39,7 +39,7 @@ node-remote-repl --host some-host --port 9229 repl.js
 #### log to stdout of your remote process
 
 ```js
-const main = async () => {
+exports.$repl = async () => {
   console.log(/* some stuff */)
 };
 ```
@@ -47,15 +47,15 @@ const main = async () => {
 #### expose some json from remote process
 
 ```js
-const main = async () => {
-  return JSON.stringify({/* some json */}, null, 2);
+exports.$replJson = async () => {
+  return {obj: true};
 };
 ```
 
 #### use power of require
 
 ```js
-const main = async () => {
+exports.$repl = async () => {
   const util = require('util');
   const module = require('./some-module');
   return util.inspect(module.method(), {colors: true});
@@ -65,7 +65,7 @@ const main = async () => {
 #### typescript support out of the box
 
 ```ts
-const main = async () => {
+exports.$repl = async () => {
   const n: number = 1;
   return n;
 };
@@ -74,7 +74,7 @@ const main = async () => {
 #### you can replace implementation on remote side
 
 ```js
-const main = async () => {
+exports.$repl = async () => {
   const Module = require('./some-module');
   Module.prototype.method = () => {
     // replace implementation on the fly
