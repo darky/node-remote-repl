@@ -44,7 +44,7 @@ const expression =
         compilerOptions: {
           lib: ["es2020"],
           module: ModuleKind.CommonJS,
-          target: ScriptTarget.ES2019,
+          target: ScriptTarget.ES2020,
           esModuleInterop: true,
         },
       }).outputText;
