@@ -105,3 +105,8 @@ For example let's do it with Visual Studio Code and Code Runner extension:
 
 * profit, now you can fastly run repl via Visual Studio Code
 * I hope, some similar stuff exists on all popular IDE
+
+### Related
+
+* [repl-ns](https://github.com/darky/repl-ns) - 
+Namespace for REPL driven development for TypeScript/JavaScript, inspired by Clojure namespaces
