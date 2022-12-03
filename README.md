@@ -39,8 +39,14 @@ node-remote-repl --host some-host --port 9229 repl.js
 #### log to stdout of your remote process
 
 ```js
+console.log(/* some stuff */);
+```
+
+#### expose something from remote process
+
+```js
 exports.$repl = async () => {
-  console.log(/* some stuff */)
+  return 1 + 1;
 };
 ```
 
@@ -55,9 +61,10 @@ exports.$replJson = async () => {
 #### use power of require
 
 ```js
+const util = require('util');
+const module = require('./some-module');
+
 exports.$repl = async () => {
-  const util = require('util');
-  const module = require('./some-module');
   return util.inspect(module.method(), {colors: true});
 };
 ```
@@ -74,11 +81,9 @@ exports.$repl = async () => {
 #### you can replace implementation on remote side
 
 ```js
-exports.$repl = async () => {
-  const Module = require('./some-module');
-  Module.prototype.method = () => {
-    // replace implementation on the fly
-  };
+const Module = require('./some-module');
+Module.prototype.method = () => {
+  // replace implementation on the fly
 };
 ```
 
