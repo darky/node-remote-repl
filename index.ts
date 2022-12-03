@@ -22,7 +22,7 @@ if (!file) {
   process.exit(1);
 }
 
-const fileExtension = file.match(/(\.js|\.ts)$/)?.[1];
+const fileExtension = file.match(/(\.js|\.jsx|\.ts|\.tsx)$/)?.[1];
 
 if (!fileExtension) {
   console.error("Support only js or ts file extensions");
@@ -38,7 +38,7 @@ if (!fs.existsSync(filePath)) {
 
 const fileContent = fs.readFileSync(filePath, { encoding: "utf8" });
 const expression =
-  fileExtension === ".js"
+  fileExtension === '.js'
     ? fileContent
     : ts.transpileModule(fileContent, {
         compilerOptions: {
@@ -46,6 +46,7 @@ const expression =
           module: ModuleKind.CommonJS,
           target: ScriptTarget.ES2020,
           esModuleInterop: true,
+          jsx: fileExtension.endsWith('x') ? ts.JsxEmit.React : void 0,
         },
       }).outputText;
 
