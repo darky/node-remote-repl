@@ -62,7 +62,12 @@ const expression =
     expression: `(async () => {
       const exports = {};
       ${expression}
-      return await main();
+      if (exports.$replJson) {
+        return JSON.stringify(await exports.$replJson(), null, 2);
+      }
+      if (exports.$repl) {
+        return await exports.$repl();
+      }
     })()`,
     includeCommandLineAPI: true,
     awaitPromise: true,
