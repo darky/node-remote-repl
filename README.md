@@ -1,6 +1,6 @@
 # node-remote-repl
 
-Execute code remotelly via Node.js inspect protocol like Clojure nREPL
+Execute code remotelly via Node.js inspect protocol like Clojure nREPL. Primary usage for REPL driven development.
 
 ### Install
 
