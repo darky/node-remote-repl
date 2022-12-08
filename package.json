@@ -30,11 +30,11 @@
   "dependencies": {
     "chrome-remote-interface": "^0.31.3",
     "commander": "^9.4.1",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.4"
   },
   "devDependencies": {
-    "@types/node": "18.11.10",
-    "prettier": "2.8.0",
+    "@types/node": "18.11.15",
+    "prettier": "2.8.1",
     "type-coverage": "2.24.1"
   }
 }
