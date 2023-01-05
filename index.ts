@@ -21,7 +21,7 @@ if (!file) {
   process.exit(1)
 }
 
-const fileExtension = file.match(/(\.js|\.jsx|\.ts|\.tsx)$/)?.[1]
+const fileExtension = file.match(/(\.js|\.jsx|\.ts|\.tsx|\.mjs|\.cjs|\.mts|\.cts)$/)?.[1]
 
 if (!fileExtension) {
   console.error('Support only js or ts file extensions')
@@ -48,37 +48,37 @@ const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' })
     port: program.opts<ProgramT>().port,
   })
 
-  const expression =
-    fileExtension === '.js'
-      ? fileContent
-      : await (async () => {
-          if (process.env['USE_SWC']) {
-            const swc = await import('@swc/core')
-            return swc.transformSync(fileContent, {
-              module: {
-                type: 'commonjs',
-              },
-              jsc: {
-                target: 'es2020',
-                parser: {
-                  syntax: 'typescript',
-                  tsx: fileExtension.endsWith('x'),
-                },
-              },
-            }).code
-          }
-
-          const ts = await import('typescript')
-          return ts.transpileModule(fileContent, {
-            compilerOptions: {
-              lib: ['es2020'],
-              module: ts.ModuleKind.CommonJS,
-              target: ts.ScriptTarget.ES2020,
-              esModuleInterop: true,
-              jsx: fileExtension.endsWith('x') ? ts.JsxEmit.React : void 0,
+  const expression = fileExtension.endsWith('js')
+    ? fileContent
+    : await (async () => {
+        if (process.env['USE_SWC']) {
+          const swc = await import('@swc/core')
+          return swc.transformSync(fileContent, {
+            module: {
+              type: fileExtension === '.mts' ? 'es6' : 'commonjs',
             },
-          }).outputText
-        })()
+            jsc: {
+              target: 'es2020',
+              parser: {
+                syntax: 'typescript',
+                tsx: fileExtension.endsWith('x'),
+              },
+            },
+          }).code
+        }
+
+        const ts = await import('typescript')
+        return ts.transpileModule(fileContent, {
+          compilerOptions: {
+            lib: ['es2020'],
+            module: fileExtension === '.mts' ? ts.ModuleKind.ES2020 : ts.ModuleKind.CommonJS,
+            moduleResolution: ts.ModuleResolutionKind.NodeJs,
+            target: ts.ScriptTarget.ES2020,
+            esModuleInterop: true,
+            jsx: fileExtension.endsWith('x') ? ts.JsxEmit.React : void 0,
+          },
+        }).outputText
+      })()
 
   const resp = await client.Runtime.evaluate({
     expression: `(async () => {
