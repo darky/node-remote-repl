@@ -2,7 +2,6 @@ import path from 'path'
 import fs from 'fs'
 
 import { program } from 'commander'
-import ts, { ModuleKind, ScriptTarget } from 'typescript'
 import CRI from 'chrome-remote-interface'
 
 import packageJson from './package.json'
@@ -37,28 +36,50 @@ if (!fs.existsSync(filePath)) {
 }
 
 const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' })
-const expression =
-  fileExtension === '.js'
-    ? fileContent
-    : ts.transpileModule(fileContent, {
-        compilerOptions: {
-          lib: ['es2020'],
-          module: ModuleKind.CommonJS,
-          target: ScriptTarget.ES2020,
-          esModuleInterop: true,
-          jsx: fileExtension.endsWith('x') ? ts.JsxEmit.React : void 0,
-        },
-      }).outputText
 
 ;(async () => {
   type ProgramT = {
     host: string
     port: number
   }
+
   const client = await CRI({
     host: program.opts<ProgramT>().host,
     port: program.opts<ProgramT>().port,
   })
+
+  const expression =
+    fileExtension === '.js'
+      ? fileContent
+      : await (async () => {
+          if (process.env['USE_SWC']) {
+            const swc = await import('@swc/core')
+            return swc.transformSync(fileContent, {
+              module: {
+                type: 'commonjs',
+              },
+              jsc: {
+                target: 'es2020',
+                parser: {
+                  syntax: 'typescript',
+                  tsx: fileExtension.endsWith('x'),
+                },
+              },
+            }).code
+          }
+
+          const ts = await import('typescript')
+          return ts.transpileModule(fileContent, {
+            compilerOptions: {
+              lib: ['es2020'],
+              module: ts.ModuleKind.CommonJS,
+              target: ts.ScriptTarget.ES2020,
+              esModuleInterop: true,
+              jsx: fileExtension.endsWith('x') ? ts.JsxEmit.React : void 0,
+            },
+          }).outputText
+        })()
+
   const resp = await client.Runtime.evaluate({
     expression: `(async () => {
       const exports = {};
