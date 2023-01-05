@@ -34,6 +34,20 @@ Ok, it's very easy, create for example `repl.js` and play with it
 node-remote-repl --host some-host --port 9229 repl.js
 ```
 
+Also TypeScript supported too
+
+```
+node-remote-repl --host some-host --port 9229 repl.ts
+```
+
+If you want to use fast TypeScript compiler
+
+```
+USE_SWC=1 node-remote-repl --host some-host --port 9229 repl.ts
+```
+
+*For TypeScript support should be installed **typescript** or **@swc/core** (when USE_SWC=1) in your `devDependencies`*
+
 ### Some use cases
 
 #### log to stdout of your remote process
