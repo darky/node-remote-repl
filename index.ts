@@ -1,5 +1,3 @@
-console.time('require')
-
 import path from 'path'
 import fs from 'fs'
 
@@ -8,8 +6,6 @@ import ts, { ModuleKind, ScriptTarget } from 'typescript'
 import CRI from 'chrome-remote-interface'
 
 import packageJson from './package.json'
-
-console.timeEnd('require')
 
 program
   .version(packageJson.version)
