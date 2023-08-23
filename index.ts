@@ -58,7 +58,7 @@ const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' })
               type: fileExtension === '.mts' ? 'es6' : 'commonjs',
             },
             jsc: {
-              target: 'es2020',
+              target: 'es2022',
               parser: {
                 syntax: 'typescript',
                 tsx: fileExtension.endsWith('x'),
@@ -70,10 +70,10 @@ const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' })
         const ts = await import('typescript')
         return ts.transpileModule(fileContent, {
           compilerOptions: {
-            lib: ['es2020'],
+            lib: ['es2022'],
             module: fileExtension === '.mts' ? ts.ModuleKind.ES2020 : ts.ModuleKind.CommonJS,
             moduleResolution: ts.ModuleResolutionKind.NodeJs,
-            target: ts.ScriptTarget.ES2020,
+            target: ts.ScriptTarget.ES2022,
             esModuleInterop: true,
             jsx: fileExtension.endsWith('x') ? ts.JsxEmit.React : void 0,
           },
