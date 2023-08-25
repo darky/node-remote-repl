@@ -61,9 +61,16 @@ const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' })
               target: 'es2022',
               parser: {
                 decorators: true,
+                dynamicImport: true,
                 syntax: 'typescript',
                 tsx: fileExtension.endsWith('x'),
               },
+              transform: {
+                decoratorMetadata: true,
+                legacyDecorator: true,
+              },
+              keepClassNames: true,
+              baseUrl: './',
             },
           }).code
         }
