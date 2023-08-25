@@ -70,7 +70,6 @@ const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' })
                 legacyDecorator: true,
               },
               keepClassNames: true,
-              baseUrl: './',
             },
           }).code
         }
